@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accueil – Mes Sites</title>
+  <style>
+    /* Styles simples pour centrer le contenu et mettre en valeur les liens */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    h1 {
+      margin-bottom: 10px;
+    }
+    p.description {
+      margin-bottom: 20px;
+    }
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .link-box {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 15px 25px;
+      min-width: 250px;
+      text-align: center;
+      font-size: 18px;
+      text-decoration: none;
+      color: #333;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .link-box:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <h1>Bienvenue&nbsp;!</h1>
+  <p class="description">Cette page vous permet de naviguer vers mes différentes applications&nbsp;:</p>
+  <div class="links">
+    <a class="link-box" href="https://receptionbr.onrender.com/" target="_blank">Application de réception</a>
+    <a class="link-box" href="https://gestion-stock-app-inventaire.onrender.com/" target="_blank">Application de gestion de stock</a>
+  </div>
+</body>
+</html>
