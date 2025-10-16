@@ -16,37 +16,70 @@
 
   <style>
     :root{
+      /* Brand */
       --brand-500:#7c3aed;
       --brand-600:#6d28d9;
       --brand-700:#5b21b6;
-      --night-900:#0b0d20;
+
+      /* UI */
       --text:#e8e9f2;
       --muted:#b3b6c9;
       --glass: rgba(255,255,255,.045);
       --glass-border: 1px solid rgba(255,255,255,.08);
       --radius:18px;
       --shadow:0 12px 32px rgba(0,0,0,.35);
-      --bg: radial-gradient(1100px 800px at 80% -10%, rgba(124,58,237,.35), transparent 60%),
-            radial-gradient(900px 600px at -10% 110%, rgba(43,16,85,.45), transparent 60%),
-            linear-gradient(180deg,#090b16 0%, #0b0d20 100%);
+
+      /* FX positions (updated by JS) */
+      --mx:50%;
+      --my:40%;
     }
 
     *{box-sizing:border-box}
     html,body{height:100%}
 
-    /* -------- Layout -------- */
+    /* ---------- BACKGROUND “WOW” ----------- */
     body{
       margin:0;
       font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
       color:var(--text);
-      background:var(--bg);
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      min-height:100vh;
+      display:flex; align-items:center; justify-content:center;
       text-align:center; padding:28px;
-      animation:fadeInUp .8s ease-out both;
+      background:
+        radial-gradient(1200px 800px at 85% -10%, rgba(124,58,237,.38), transparent 60%),
+        radial-gradient(1000px 700px at -15% 120%, rgba(46,21,92,.48), transparent 60%),
+        linear-gradient(180deg,#090b16 0%, #0b0d20 100%);
+      animation: bgShift 18s ease-in-out infinite alternate;
     }
-    .container{ width:100%; max-width:1080px; }
 
-    /* -------- Hero -------- */
+    /* Orbes flottants */
+    .fx, .spotlight{ position:fixed; inset:0; pointer-events:none; z-index:-1 }
+    .fx::before, .fx::after{
+      content:""; position:absolute; width:52vmax; height:52vmax; filter: blur(80px);
+      border-radius:50%;
+      opacity:.22;
+      transform: translate(-20%, -20%);
+      background: radial-gradient(circle at 30% 30%, rgba(140,97,255,.9), transparent 55%);
+      animation: floatA 22s ease-in-out infinite;
+    }
+    .fx::after{
+      left:auto; right:-10%; top:20%; opacity:.18;
+      background: radial-gradient(circle at 70% 60%, rgba(60,30,120,.9), transparent 55%);
+      animation: floatB 26s ease-in-out infinite;
+    }
+
+    /* Spotlight qui suit légèrement la souris */
+    .spotlight{
+      background:
+        radial-gradient(360px 300px at var(--mx) var(--my), rgba(150,110,255,.18), transparent 60%),
+        radial-gradient(520px 420px at calc(var(--mx) + 8%) calc(var(--my) + 10%), rgba(60,30,120,.12), transparent 65%);
+      mix-blend-mode: screen;
+      transition: background-position .15s ease-out;
+    }
+
+    /* ---------- CONTENT ----------- */
+    .container{ width:100%; max-width:1080px; animation:fadeInUp .8s ease-out both }
+
     .hero{ display:grid; gap:18px; justify-items:center; margin-bottom:24px; }
     .logo{
       width:120px; height:120px; border-radius:22px;
@@ -56,15 +89,13 @@
       position:relative; isolation:isolate;
       animation:popIn .6s ease-out .1s both;
     }
-    .logo img{ width:82%; height:auto; display:block; image-rendering:-webkit-optimize-contrast; }
-
-    /* Glow animé derrière le logo */
     .logo::after{
       content:""; position:absolute; inset:-30px; border-radius:40px; z-index:-1;
       background:radial-gradient(40% 40% at 50% 50%, rgba(124,58,237,.38), transparent 60%);
       filter:blur(18px);
       animation:glowPulse 4s ease-in-out infinite alternate;
     }
+    .logo img{ width:82%; height:auto; display:block; image-rendering:-webkit-optimize-contrast; }
 
     h1{
       margin:8px 0 0; font-size:clamp(32px,5vw,46px); letter-spacing:.2px;
@@ -74,7 +105,6 @@
     }
     .subtitle{ color:var(--muted); max-width:760px; margin:0 0 22px; }
 
-    /* -------- Cards -------- */
     .grid{
       display:grid; gap:18px;
       grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
@@ -83,13 +113,13 @@
       background:var(--glass); border:var(--glass-border); border-radius:var(--radius);
       padding:22px; backdrop-filter:blur(10px); box-shadow:var(--shadow);
       transition: transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s, border-color .25s;
+      will-change: transform;
     }
     .card:hover{ transform:translateY(-6px); border-color:rgba(124,58,237,.35);
       box-shadow:0 18px 46px rgba(124,58,237,.25); }
     .card h3{ margin:0 0 6px; font-size:18px; font-weight:700; }
     .card p{ margin:0 0 16px; color:var(--muted) }
 
-    /* -------- CTA -------- */
     .cta{
       display:inline-flex; align-items:center; justify-content:center; gap:10px;
       padding:12px 16px; font-weight:700; color:#fff; text-decoration:none;
@@ -104,31 +134,28 @@
     }
     .cta:focus-visible{ outline:2px solid var(--brand-600); outline-offset:2px }
 
-    /* -------- Footer -------- */
     footer{ margin-top:26px; color:var(--muted); font-size:14px }
     footer a{ color:inherit; text-decoration:none }
     footer a:hover{ color:#d4cfff }
 
-    /* -------- Animations -------- */
-    @keyframes fadeInUp{
-      from{opacity:0; transform:translateY(20px) scale(.98)}
-      to{opacity:1; transform:translateY(0) scale(1)}
+    /* ---------- Animations ---------- */
+    @keyframes bgShift{
+      0%{ background-position: 0% 0%, 0% 100%, 0 0; }
+      100%{ background-position: 5% -2%, -4% 104%, 0 0; }
     }
-    @keyframes popIn{
-      from{opacity:0; transform:scale(.94)}
-      to{opacity:1; transform:scale(1)}
-    }
-    @keyframes glowPulse{
-      from{opacity:.6; transform:scale(.95)}
-      to{opacity:1; transform:scale(1.05)}
-    }
+    @keyframes floatA{ 0%{transform:translate(-20%,-20%)} 100%{transform:translate(-10%,-10%)} }
+    @keyframes floatB{ 0%{transform:translate(5%,0)} 100%{transform:translate(-5%, -4%)} }
+    @keyframes fadeInUp{ from{opacity:0; transform:translateY(20px) scale(.98)} to{opacity:1; transform:translateY(0) scale(1)} }
+    @keyframes popIn{ from{opacity:0; transform:scale(.94)} to{opacity:1; transform:scale(1)} }
+    @keyframes glowPulse{ from{opacity:.6; transform:scale(.95)} to{opacity:1; transform:scale(1.05)} }
 
-    /* Respect des préférences d’accessibilité */
+    /* Accessibilité : désactiver les motions si demandé */
     @media (prefers-reduced-motion: reduce){
       *{ animation:none !important; transition:none !important }
+      .spotlight{ display:none }
     }
 
-    /* Mobile polish */
+    /* Mobile */
     @media (max-width:640px){
       .grid{ gap:14px }
       footer{ margin-top:22px; font-size:.9rem }
@@ -137,6 +164,10 @@
 </head>
 
 <body>
+  <!-- calques d'effets -->
+  <div class="fx" aria-hidden="true"></div>
+  <div class="spotlight" aria-hidden="true"></div>
+
   <main class="container" role="main">
     <div class="hero" aria-label="En-tête du portail">
       <!-- Remplace /assets/logo.png par ton fichier si besoin -->
@@ -171,7 +202,20 @@
   </main>
 
   <script>
+    // Année dynamique
     document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Spotlight qui suit la souris (désactivé si prefers-reduced-motion)
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(!prefersReduced){
+      const root = document.documentElement;
+      window.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth) * 100;
+        const y = (e.clientY / window.innerHeight) * 100;
+        root.style.setProperty('--mx', x + '%');
+        root.style.setProperty('--my', y + '%');
+      }, {passive:true});
+    }
   </script>
 </body>
 </html>
