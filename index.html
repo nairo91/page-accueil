@@ -39,35 +39,25 @@
       padding: 2rem;
     }
 
-    .logo {
-      width: 110px;
-      height: 110px;
-      border-radius: 28px;
-      overflow: hidden;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, var(--violet-500), var(--violet-700));
-      box-shadow: 0 0 30px rgba(124,58,237,.25);
-      position: relative;
-      margin-bottom: 1.2rem;
+    /* LOGO — style sticker propre sur fond sombre */
+    .logo{
+      width:120px;              /* ajuste 112–136 si besoin */
+      height:120px;
+      border-radius:22px;
+      overflow:hidden;
+      display:grid; place-items:center;
+      background:#ffffff;       /* fond clair pour la lisibilité du PNG */
+      border:1px solid rgba(0,0,0,.06);
+      box-shadow: 0 10px 28px rgba(0,0,0,.28);  /* ombre réaliste, pas violette */
+      position:relative;
+      margin-bottom:14px;
     }
 
-    .logo img {
-      width: 70%;
-      height: auto;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-    }
-
-    .logo::before {
-      content: "";
-      position: absolute;
-      inset: -4px;
-      border-radius: 32px;
-      padding: 3px;
-      background: linear-gradient(135deg, rgba(255,255,255,.2), rgba(124,58,237,.3));
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
+    .logo img{
+      width:82%;                /* ajuste 74–88% selon ton logo */
+      height:auto; display:block;
+      image-rendering:-webkit-optimize-contrast; /* anti-flou sur certains PNG */
+      filter:none;                                /* supprime le drop-shadow */
     }
 
     h1 {
@@ -157,8 +147,7 @@
 </head>
 
 <body>
-  <div class="logo">
-    <!-- Remplace ce fichier par ton logo -->
+  <div class="logo" aria-hidden="true">
     <img src="/assets/logo.png" alt="Logo BATI RENOV">
   </div>
 
@@ -182,9 +171,8 @@
   </section>
 
   <footer>
-    © <span id="y"></span> BATI RENOV &nbsp;•&nbsp;
-    <a href="mailto:contact@batirenov.info">contact@batirenov.info</a> &nbsp;•&nbsp;
-    Fait avec ❤️ et un dégradé violet
+    © <span id="y"></span> BATI RENOV ·
+    <a href="mailto:contact@batirenov.info" style="color:inherit">contact@batirenov.info</a>
   </footer>
 
   <script>
